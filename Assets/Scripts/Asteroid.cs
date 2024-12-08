@@ -5,11 +5,8 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
     public Vector2 velocity; // Velocity of the asteroid
-
-    public GameObject asteroidMediumPrefab; // Reference to the medium asteroid prefab
-    public GameObject asteroidSmallPrefab;  // Reference to the small asteroid prefab
-    public GameObject explosionEffect;      // Particle effect prefab for explosion
-
+    public AudioClip destroyedClip; // Death sound clip added from inspection
+    
 
     // Start is called before the first frame update
     void Start()
@@ -46,53 +43,20 @@ public class Asteroid : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
+        // Check if the asteroid was hit by a bullet
         if (other.CompareTag("Bullet"))
         {
+            
             Destroy(other.gameObject); // Destroy the bullet
-
-            // Instantiate the explosion effect
-            if (explosionEffect != null)
-            {
-                GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
-                Destroy(explosion, 1.0f); // Destroy the particle system after 1 second
-            }
-
-            // Check the size of the asteroid and split if applicable
-            if (gameObject.name.Contains("Large"))
-            {
-                GameManager.Instance.AddScore(100);
-                SplitAsteroid(asteroidMediumPrefab); // Spawn medium asteroids
-            }
-            else if (gameObject.name.Contains("Medium"))
-            {
-                GameManager.Instance.AddScore(50);
-                SplitAsteroid(asteroidSmallPrefab); // Spawn small asteroids
-            }
-            else if (gameObject.name.Contains("Small"))
-            {
-                GameManager.Instance.AddScore(25);
-            }
-
-            // Destroy the current asteroid
-            Destroy(gameObject);
-        }
-        void SplitAsteroid(GameObject smallerAsteroidPrefab)
-        {
-            // Spawn two smaller asteroids
-            for (int i = 0; i < 2; i++)
-            {
-                GameObject newAsteroid = Instantiate(smallerAsteroidPrefab, transform.position, Quaternion.identity);
-
-                // Assign random velocity to each new asteroid
-                float randomSpeed = Random.Range(1.5f, 3.5f);
-                float randomAngle = Random.Range(0, 360);
-                Vector2 newVelocity = new Vector2(
-                    Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomSpeed,
-                    Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomSpeed
-                );
-
-                newAsteroid.GetComponent<Asteroid>().velocity = newVelocity;
-            }
+            AudioSource.PlayClipAtPoint(destroyedClip, transform.position); //create a position for sound and play it
+            AsteroidDestroyed();  // destroy asteroid on a seperate function
+  
         }
     }
+    
+    void AsteroidDestroyed()
+    {
+        Destroy(gameObject); // Destroy the asteroid
+    }
+
 }

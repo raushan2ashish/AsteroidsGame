@@ -31,16 +31,19 @@ public class PlayerShip : MonoBehaviour
             Vector2 thrust = transform.right * thrustForce * Time.deltaTime; // Forward direction
             velocity += thrust;
 
-            if (!thrustSound.isPlaying)
-            {
-                thrustSound.Play(); // Play thrust sound while moving
-            }
-        
-            else
-            {
-            thrustSound.Stop(); // Stop thrust sound when not moving
-            }
         }
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow)) // start it once when key is pressed for the first time
+        {
+            thrustSound.loop = true; // Loop the audiostart it once when key is pressed for the first time
+            thrustSound.Play(); // Play thrust sound while moving
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow)) // end the audio when the key is released
+        {
+        thrustSound.loop = false; // end loop to stop
+        thrustSound.Stop(); // Stop thrust sound when not moving
+        }
+
 
         // Apply Friction (damping)
         velocity *= 0.99f;
