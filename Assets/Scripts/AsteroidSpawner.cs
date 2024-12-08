@@ -5,7 +5,7 @@ using UnityEngine;
 public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab; // Reference to the asteroid prefab
-    public int asteroidCount = 8; // Number of asteroids to spawn
+    public int asteroidCount = 12; // Number of asteroids to spawn
 
     // Start is called before the first frame update
     void Start()
