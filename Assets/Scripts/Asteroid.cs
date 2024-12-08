@@ -6,7 +6,8 @@ public class Asteroid : MonoBehaviour
 {
     public Vector2 velocity; // Velocity of the asteroid
     public AudioClip destroyedClip; // Death sound clip added from inspection
-    
+    public GameObject asteroidMediumPrefab; // Reference to the medium asteroid prefab
+    public GameObject asteroidSmallPrefab;  // Reference to the small asteroid prefab
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,16 @@ public class Asteroid : MonoBehaviour
         // Check if the asteroid was hit by a bullet
         if (other.CompareTag("Bullet"))
         {
-            
+            // Check the size of the asteroid and split if applicable
+            if (gameObject.name.Contains("Large"))
+            {
+                SplitAsteroid(asteroidMediumPrefab); // Spawn medium asteroids
+            }
+            else if (gameObject.name.Contains("Medium"))
+            {
+                SplitAsteroid(asteroidSmallPrefab); // Spawn small asteroids
+            }
+
             Destroy(other.gameObject); // Destroy the bullet
             AudioSource.PlayClipAtPoint(destroyedClip, transform.position); //create a position for sound and play it
             AsteroidDestroyed();  // destroy asteroid on a seperate function
@@ -57,6 +67,24 @@ public class Asteroid : MonoBehaviour
     void AsteroidDestroyed()
     {
         Destroy(gameObject); // Destroy the asteroid
+    }
+    void SplitAsteroid(GameObject smallerAsteroidPrefab)
+    {
+        // Spawn two smaller asteroids
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject newAsteroid = Instantiate(smallerAsteroidPrefab, transform.position, Quaternion.identity);
+
+            // Assign random velocity to each new asteroid
+            float randomSpeed = Random.Range(1.5f, 3.5f);
+            float randomAngle = Random.Range(0, 360);
+            Vector2 newVelocity = new Vector2(
+                Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomSpeed,
+                Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomSpeed
+            );
+
+            newAsteroid.GetComponent<Asteroid>().velocity = newVelocity;
+        }
     }
 
 }

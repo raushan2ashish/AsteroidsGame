@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -499,7 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f4ba29b2e9ccd4d9cc7ba6c893ce0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidPrefab: {fileID: 7196409002591383222, guid: c7f912c84ae1b47489ec0629f1461a77, type: 3}
+  asteroidPrefab: {fileID: 7196409002591383222, guid: d51a7cdc498e2fe4a9468079b9f190da, type: 3}
   asteroidCount: 5
 --- !u!4 &730611849
 Transform:
@@ -802,7 +803,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 92
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

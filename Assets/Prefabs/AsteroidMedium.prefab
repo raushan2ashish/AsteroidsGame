@@ -281,6 +281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
+  destroyedClip: {fileID: 8300000, guid: 3f5c5110370aa77498907b975003014a, type: 3}
   asteroidMediumPrefab: {fileID: 0}
   asteroidSmallPrefab: {fileID: 7196409002591383222, guid: 9994f1970f1f55f409dae0f83b362336, type: 3}
-  explosionEffect: {fileID: 7208385322710424199, guid: 618ae965a43952b4a940acca7ee90dfc, type: 3}
