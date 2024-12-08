@@ -8,6 +8,7 @@ public class Asteroid : MonoBehaviour
     public AudioClip destroyedClip; // Death sound clip added from inspection
     public GameObject asteroidMediumPrefab; // Reference to the medium asteroid prefab
     public GameObject asteroidSmallPrefab;  // Reference to the small asteroid prefab
+    public GameObject explosionEffect;      // Particle effect prefab for explosion
 
     // Start is called before the first frame update
     void Start()
@@ -47,14 +48,29 @@ public class Asteroid : MonoBehaviour
         // Check if the asteroid was hit by a bullet
         if (other.CompareTag("Bullet"))
         {
+            // Instantiate the explosion effect
+            if (explosionEffect != null)
+            {
+                GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+                Destroy(explosion, 1.0f); // Destroy the particle system after 1 second
+            }
+
             // Check the size of the asteroid and split if applicable
             if (gameObject.name.Contains("Large"))
             {
                 SplitAsteroid(asteroidMediumPrefab); // Spawn medium asteroids
+                GameManager.Instance.AddScore(100);
+                SplitAsteroid(asteroidMediumPrefab);
             }
             else if (gameObject.name.Contains("Medium"))
             {
                 SplitAsteroid(asteroidSmallPrefab); // Spawn small asteroids
+                GameManager.Instance.AddScore(50);
+                SplitAsteroid(asteroidSmallPrefab);
+            }
+            else if (gameObject.name.Contains("Small"))
+            {
+                GameManager.Instance.AddScore(25);
             }
 
             Destroy(other.gameObject); // Destroy the bullet
@@ -71,7 +87,7 @@ public class Asteroid : MonoBehaviour
     void SplitAsteroid(GameObject smallerAsteroidPrefab)
     {
         // Spawn two smaller asteroids
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             GameObject newAsteroid = Instantiate(smallerAsteroidPrefab, transform.position, Quaternion.identity);
 

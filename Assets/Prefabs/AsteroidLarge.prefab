@@ -117,7 +117,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -284,3 +284,4 @@ MonoBehaviour:
   destroyedClip: {fileID: 8300000, guid: 3f5c5110370aa77498907b975003014a, type: 3}
   asteroidMediumPrefab: {fileID: 7196409002591383222, guid: c96721ba63e8cfd4c8395397790f7e93, type: 3}
   asteroidSmallPrefab: {fileID: 7196409002591383222, guid: 9994f1970f1f55f409dae0f83b362336, type: 3}
+  explosionEffect: {fileID: 7208385322710424199, guid: 618ae965a43952b4a940acca7ee90dfc, type: 3}

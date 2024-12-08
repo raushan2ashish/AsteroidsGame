@@ -68,4 +68,12 @@ public class PlayerShip : MonoBehaviour
 
         transform.position = newPosition;
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Asteroid"))
+        {
+            Destroy(gameObject); // Destroy the player ship
+            GameManager.Instance.LoseLife(); // Notify the GameManager
+        }
+    }
 }
