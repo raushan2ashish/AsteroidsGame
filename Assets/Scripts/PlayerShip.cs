@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerShip : MonoBehaviour
 {
-    public float thrustForce = 5.0f; // Force for moving forward
+    public float thrustForce = 20.0f; // Force for moving forward
     public float rotationSpeed = 200.0f; // Speed of rotation
     private Vector2 velocity = Vector2.zero; // Current velocity
     public AudioSource thrustSound; // Audio source for thrust
-    
+    public AudioSource teleportAudioSource; // Reference to the teleport sound
 
 
     // Start is called before the first frame update
@@ -59,13 +59,39 @@ public class PlayerShip : MonoBehaviour
     void WrapAroundScreen()
     {
         Vector3 newPosition = transform.position;
+        bool teleported = false; // Track if the ship has teleported
+        
 
-        // Adjust for screen bounds
-        if (newPosition.x > 10.0f) newPosition.x = -10.0f;
-        if (newPosition.x < -10.0f) newPosition.x = 10.0f;
-        if (newPosition.y > 5.0f) newPosition.y = -5.0f;
-        if (newPosition.y < -5.0f) newPosition.y = 5.0f;
+        // Wrap the ship around if it goes off screen
+        if (newPosition.x > 10.0f)
+        {
+            newPosition.x = -10.0f; // Teleport to the left side
+            teleported = true;
+        }
+        else if (newPosition.x < -10.0f)
+        {
+            newPosition.x = 10.0f; // Teleport to the right side
+            teleported = true;
+        }
 
+        if (newPosition.y > 5.0f)
+        {
+            newPosition.y = -5.0f; // Teleport to the bottom
+            teleported = true;
+        }
+        else if (newPosition.y < -5.0f)
+        {
+            newPosition.y = 5.0f; // Teleport to the top
+            teleported = true;
+        }
+
+        // If the ship has teleported, play the teleport sound
+        if (teleported && teleportAudioSource != null)
+        {
+            teleportAudioSource.Play(); // Play teleport sound
+        }
+
+        // Update the ship's position
         transform.position = newPosition;
     }
     void OnTriggerEnter2D(Collider2D other)

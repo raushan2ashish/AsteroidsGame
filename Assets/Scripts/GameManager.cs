@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        lives = 5;
         // Ensure there is only one instance of GameManager
         if (Instance == null)
         {

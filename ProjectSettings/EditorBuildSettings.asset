@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PauseScene.unity
     guid: 30f929bd7924b1f4eb6124e788ef0f69
   - enabled: 1
-    path: Assets/Scenes/ExitScene.unity
-    guid: 1299ce8fc751dbf41be57bb0a1331c79
-  - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: d08c7a164a9d1d848b50c3f60917796a
   m_configObjects: {}
