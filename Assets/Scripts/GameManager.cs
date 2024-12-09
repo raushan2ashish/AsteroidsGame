@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livesText; // UI for the lives
     private int lives = 5; // Player starts with 5 lives
 
+
     void Awake()
     {
         // Ensure there is only one instance of GameManager
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // Prevent GameManager from being destroyed
         }
         else
         {
@@ -27,9 +29,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+
     private void Start()
     {
+        // Reset the lives when the game starts
+        lives = 5;
         UpdateUI();
     }
     public void AddScore(int points)
@@ -37,6 +41,28 @@ public class GameManager : MonoBehaviour
         score += points;
         UpdateUI();
     }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reassign the UI references in the new scene
+        scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+        livesText = GameObject.Find("LivesText")?.GetComponent<TextMeshProUGUI>();
+
+        if (scoreText == null || livesText == null)
+        {
+            Debug.LogWarning("UI references could not be found in the new scene.");
+        }
+
+        UpdateUI();
+    }
+    
 
     public void LoseLife()
     {
@@ -55,8 +81,23 @@ public class GameManager : MonoBehaviour
 
     void UpdateUI()
     {
-        scoreText.text = "Score: " + score;
-        livesText.text = "Lives: " + lives;
+        if(scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
+        else
+        {
+            Debug.LogWarning("ScoreText reference is missing in GameManager.");
+        }
+
+        if (livesText != null)
+        {
+            livesText.text = "Lives: " + lives;
+        }
+        else
+        {
+            Debug.LogWarning("LivesText reference is missing in GameManager.");
+        }
     }
 
     void RespawnPlayer()
@@ -74,5 +115,9 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         SceneManager.LoadScene("GameOverScene"); // Transition to a Game Over scene
+    }
+    public int GetScore()
+    {
+        return score; // Return the current score
     }
 }
