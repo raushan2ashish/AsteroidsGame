@@ -37,8 +37,9 @@ public class GameManager : MonoBehaviour
         if(lives <= 0)
         {
             lives = 5;
+            UpdateUI();
         }
-        UpdateUI();
+        
     }
     public void AddScore(int points)
     {
