@@ -31,10 +31,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Start()
+    void Update()
     {
         // Reset the lives when the game starts
-        lives = 5;
+        if(lives <= 0)
+        {
+            lives = 5;
+        }
         UpdateUI();
     }
     public void AddScore(int points)
