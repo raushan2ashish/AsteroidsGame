@@ -10,6 +10,8 @@ public class PlayerShip : MonoBehaviour
     public AudioSource thrustSound; // Audio source for thrust
     public AudioSource teleportAudioSource; // Reference to the teleport sound
 
+    public float screenXLimit = 10.0f; // Horizontal screen limit
+    public float screenYLimit = 5.0f; // Vertical screen limit
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,12 @@ public class PlayerShip : MonoBehaviour
         // Screen Wrapping
         WrapAroundScreen();
 
+        // Teleport on "T" key press
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TeleportToRandomPosition();
+        }
+
 
     }
     void WrapAroundScreen()
@@ -93,6 +101,24 @@ public class PlayerShip : MonoBehaviour
 
         // Update the ship's position
         transform.position = newPosition;
+    }
+    void TeleportToRandomPosition()
+    {
+        // Generate a random position within screen limits
+        Vector3 randomPosition = new Vector3(
+            Random.Range(-screenXLimit, screenXLimit),
+            Random.Range(-screenYLimit, screenYLimit),
+            0.0f // Keep z-axis at 0 for 2D games
+        );
+
+        // Play teleport sound
+        if (teleportAudioSource != null)
+        {
+            teleportAudioSource.Play();
+        }
+
+        // Teleport the ship to the random position
+        transform.position = randomPosition;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
